@@ -43,7 +43,7 @@ const ComplaintSchema = new mongoose.Schema({
   },
   ipHash: {
     type: String,
-    required: true
+    required: false
   },
   publicUpdates: [
     {

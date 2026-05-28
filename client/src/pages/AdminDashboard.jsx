@@ -110,7 +110,15 @@ export default function AdminDashboard() {
         })
       });
 
-      const updated = await response.json();
+      let updated = {};
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        updated = await response.json();
+      } else {
+        const textData = await response.text();
+        throw new Error(textData || 'Failed to update status');
+      }
+
       if (!response.ok) throw new Error(updated.msg || 'Failed to update status');
 
       // Update local state
@@ -142,7 +150,15 @@ export default function AdminDashboard() {
         })
       });
 
-      const updated = await response.json();
+      let updated = {};
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        updated = await response.json();
+      } else {
+        const textData = await response.text();
+        throw new Error(textData || 'Failed to add note');
+      }
+
       if (!response.ok) throw new Error(updated.msg || 'Failed to add note');
 
       // Update local state
