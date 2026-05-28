@@ -8,6 +8,9 @@ require('dotenv').config();
 
 const app = express();
 
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/anti-ragging';
+
 // Middleware
 app.use(cors({
   origin: '*', // Allow connections from frontend
@@ -28,10 +31,12 @@ app.get('/', (req, res) => {
   res.send('Anti-Ragging Campus Portal API is running...');
 });
 
-// Database connection & Auto-Seeding
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/anti-ragging';
+// Start listening immediately
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
+// Database connection & Auto-Seeding
 mongoose.connect(MONGO_URI)
   .then(async () => {
     console.log('MongoDB Connected successfully.');
@@ -57,11 +62,6 @@ mongoose.connect(MONGO_URI)
       console.log('Password: hodadmin123');
       console.log('==================================================');
     }
-
-    // Start listening
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
   })
   .catch(err => {
     console.error('Database connection error:', err.message);
