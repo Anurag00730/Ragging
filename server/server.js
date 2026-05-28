@@ -31,6 +31,22 @@ app.get('/', (req, res) => {
   res.send('Anti-Ragging Campus Portal API is running...');
 });
 
+// Diagnostic status endpoint
+app.get('/api/status', (req, res) => {
+  const state = mongoose.connection.readyState;
+  const states = {
+    0: 'disconnected',
+    1: 'connected',
+    2: 'connecting',
+    3: 'disconnecting'
+  };
+  res.json({
+    status: 'API is running',
+    database: states[state] || 'unknown',
+    uri: process.env.MONGO_URI ? 'Configured (Hidden)' : 'Not Configured'
+  });
+});
+
 // Start listening immediately
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
