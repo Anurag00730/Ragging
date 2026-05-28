@@ -41,6 +41,7 @@ export default function TrackComplaint() {
   const getStatusBadgeClass = (status) => {
     if (status === 'Pending') return 'badge-pending';
     if (status === 'Investigating') return 'badge-investigating';
+    if (status === 'Spam') return 'badge-spam';
     return 'badge-resolved';
   };
 

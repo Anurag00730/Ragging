@@ -38,8 +38,12 @@ const ComplaintSchema = new mongoose.Schema({
   }],
   status: {
     type: String,
-    enum: ['Pending', 'Investigating', 'Resolved'],
+    enum: ['Pending', 'Investigating', 'Resolved', 'Spam'],
     default: 'Pending'
+  },
+  ipHash: {
+    type: String,
+    required: true
   },
   publicUpdates: [
     {

@@ -169,7 +169,8 @@ export default function AdminDashboard() {
       total: complaints.length,
       pending: complaints.filter(c => c.status === 'Pending').length,
       investigating: complaints.filter(c => c.status === 'Investigating').length,
-      resolved: complaints.filter(c => c.status === 'Resolved').length
+      resolved: complaints.filter(c => c.status === 'Resolved').length,
+      spam: complaints.filter(c => c.status === 'Spam').length
     };
   };
 
@@ -265,6 +266,13 @@ export default function AdminDashboard() {
               >
                 Resolved ({counts.resolved})
               </button>
+              <button 
+                onClick={() => setStatusFilter('Spam')} 
+                className={`btn btn-secondary`}
+                style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem', color: '#ff6b6b', background: statusFilter === 'Spam' ? 'rgba(239, 68, 68, 0.1)' : '' }}
+              >
+                Spam ({counts.spam})
+              </button>
             </div>
 
             {/* Department Scope Selector */}
@@ -336,7 +344,7 @@ export default function AdminDashboard() {
                         </div>
                       </td>
                       <td style={{ padding: '0.75rem' }}>
-                        <span style={{ fontSize: '0.75rem', padding: '0.2rem 0.5rem' }} className={`badge ${c.status === 'Pending' ? 'badge-pending' : c.status === 'Investigating' ? 'badge-investigating' : 'badge-resolved'}`}>
+                        <span style={{ fontSize: '0.75rem', padding: '0.2rem 0.5rem' }} className={`badge ${c.status === 'Pending' ? 'badge-pending' : c.status === 'Investigating' ? 'badge-investigating' : c.status === 'Spam' ? 'badge-spam' : 'badge-resolved'}`}>
                           {c.status}
                         </span>
                       </td>
@@ -429,6 +437,7 @@ export default function AdminDashboard() {
                     <option value="Pending">Pending</option>
                     <option value="Investigating">Investigating</option>
                     <option value="Resolved">Resolved</option>
+                    <option value="Spam">Spam (Mark & Block IP)</option>
                   </select>
                 </div>
                 <div>

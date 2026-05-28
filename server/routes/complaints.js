@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const rateLimit = require('express-rate-limit');
 const Complaint = require('../models/Complaint');
+const BlockedIP = require('../models/BlockedIP');
 const auth = require('../middleware/authMiddleware');
 
 // Ensure uploads directory exists
@@ -62,6 +63,20 @@ router.post('/submit', submitLimiter, upload.array('evidence', 5), async (req, r
       return res.status(400).json({ msg: 'Please enter all required fields including Date, Time, and Location.' });
     }
 
+    // Generate SHA-256 hash of client IP
+    const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
+    const ipHash = crypto.createHash('sha256').update(clientIp).digest('hex');
+
+    // Check if IP is currently blocked
+    const blockedRecord = await BlockedIP.findOne({ ipHash });
+    if (blockedRecord && blockedRecord.blockedUntil && blockedRecord.blockedUntil > new Date()) {
+      const diffTime = blockedRecord.blockedUntil - new Date();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return res.status(403).json({
+        msg: `Aapko spamming ki wajah se block kar diya gaya hai. Aap agle ${diffDays} dino tak new complaint submit nahi kar sakte.`
+      });
+    }
+
     // Generate unique Tracking ID: e.g. RAG-D4A19
     const trackingId = 'RAG-' + crypto.randomBytes(3).toString('hex').toUpperCase();
 
@@ -83,6 +98,7 @@ router.post('/submit', submitLimiter, upload.array('evidence', 5), async (req, r
       incidentLocation,
       department: department || 'General Administration',
       evidenceUrls,
+      ipHash,
       publicUpdates: [{
         message: 'Complaint filed successfully. Awaiting HOD review.'
       }]
@@ -167,6 +183,23 @@ router.put('/:id/status', auth, async (req, res) => {
       complaint.publicUpdates.push({ message: publicMessage });
     } else {
       complaint.publicUpdates.push({ message: `Status updated to: ${status}` });
+    }
+
+    // Handle Spam & Auto-Block trigger
+    if (status === 'Spam' && complaint.ipHash) {
+      let blockedRecord = await BlockedIP.findOne({ ipHash: complaint.ipHash });
+      if (!blockedRecord) {
+        blockedRecord = new BlockedIP({
+          ipHash: complaint.ipHash,
+          spamCount: 1
+        });
+      } else {
+        blockedRecord.spamCount += 1;
+        if (blockedRecord.spamCount >= 3) {
+          blockedRecord.blockedUntil = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
+        }
+      }
+      await blockedRecord.save();
     }
 
     await complaint.save();
