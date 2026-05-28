@@ -23,7 +23,14 @@ export default function AdminLogin() {
         body: JSON.stringify({ email, password })
       });
 
-      const data = await response.json();
+      let data = {};
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        data = await response.json();
+      } else {
+        const textData = await response.text();
+        throw new Error(textData || 'Authentication failed');
+      }
 
       if (!response.ok) {
         throw new Error(data.msg || 'Authentication failed');

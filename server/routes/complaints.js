@@ -118,7 +118,7 @@ router.post('/track', async (req, res) => {
     res.json(complaint);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -140,7 +140,7 @@ router.get('/', auth, async (req, res) => {
     res.json(complaints);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -173,7 +173,7 @@ router.put('/:id/status', auth, async (req, res) => {
     res.json(complaint);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -202,7 +202,7 @@ router.post('/:id/notes', auth, async (req, res) => {
     res.json(complaint);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
