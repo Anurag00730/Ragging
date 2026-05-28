@@ -1,0 +1,20 @@
+# Dependency directories
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Local env files
+.env
+server/.env
+
+# Build outputs
+dist/
+client/dist/
+
+# Local evidence uploads
+server/uploads/*
+!server/uploads/.gitkeep
+
+# System files
+.DS_Store
+Thumbs.db
