@@ -46,7 +46,7 @@ export default function TrackComplaint() {
   };
 
   return (
-    <div className="container" style={{ padding: '3rem 0', maxWidth: '750px' }}>
+    <div className="container" style={{ padding: '3rem 1rem', maxWidth: '750px' }}>
       <div className="card" style={{ marginBottom: '2rem' }}>
         <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Search size={22} color="var(--primary)" /> Complaint Status Track Karein

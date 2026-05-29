@@ -51,7 +51,7 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="container" style={{ padding: '5rem 0', maxWidth: '450px' }}>
+    <div className="container" style={{ padding: '5rem 1rem', maxWidth: '450px' }}>
       <div className="card">
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div style={{ display: 'inline-flex', padding: '1rem', background: 'rgba(245, 158, 11, 0.1)', borderRadius: '50%', color: 'var(--primary)', marginBottom: '1rem' }}>

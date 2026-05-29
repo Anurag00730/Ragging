@@ -72,7 +72,7 @@ export default function SubmitComplaint() {
 
   if (successData) {
     return (
-      <div className="container" style={{ padding: '3rem 0', maxWidth: '600px' }}>
+      <div className="container" style={{ padding: '3rem 1rem', maxWidth: '600px' }}>
         <div className="card" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '1.5rem', border: '1px solid var(--success)' }}>
           <div style={{ display: 'flex', justifyContent: 'center', color: 'var(--success)' }}>
             <CheckCircle size={60} />
@@ -117,7 +117,7 @@ export default function SubmitComplaint() {
   }
 
   return (
-    <div className="container" style={{ padding: '3rem 0', maxWidth: '800px' }}>
+    <div className="container" style={{ padding: '3rem 1rem', maxWidth: '800px' }}>
       <div className="card">
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem' }}>
           <ShieldAlert size={36} color="var(--danger)" />

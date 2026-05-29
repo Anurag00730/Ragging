@@ -195,7 +195,7 @@ export default function AdminDashboard() {
   if (!adminUser) return null;
 
   return (
-    <div className="container" style={{ padding: '2rem 0', maxWidth: '1200px' }}>
+    <div className="container" style={{ padding: '2rem 1rem', maxWidth: '1200px' }}>
       {/* Dashboard Top Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -247,7 +247,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Main Workspace: Table List & Detail Side Panel */}
-      <div style={{ display: 'grid', gridTemplateColumns: selectedComplaint ? '1.2fr 1fr' : '1fr', gap: '1.5rem', alignItems: 'start' }}>
+      <div className={`dashboard-grid ${selectedComplaint ? 'has-selected' : ''}`}>
         
         {/* Left Side: Table of tickets */}
         <div className="card" style={{ overflow: 'hidden', padding: '1.5rem' }}>
@@ -379,7 +379,7 @@ export default function AdminDashboard() {
 
         {/* Right Side: Details Panel */}
         {selectedComplaint && (
-          <div className="card" style={{ position: 'sticky', top: '90px', display: 'flex', flexDirection: 'column', gap: '1.5rem', maxHeight: 'calc(100vh - 120px)', overflowY: 'auto' }}>
+          <div className="card details-panel">
             
             {/* Detail Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem' }}>
